@@ -1,5 +1,8 @@
-package agileteam.report;
+package agileteam.domain.report;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class TechnicalLeaderReport implements TeamReport{
 
     @Override

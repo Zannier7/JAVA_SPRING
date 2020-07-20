@@ -1,18 +1,16 @@
-package agileteam;
+package agileteam.domain;
 
-import agileteam.report.TeamReport;
+import agileteam.domain.report.TeamReport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
-@Component
-@Lazy(value = true)
+@Repository
 public class ScumMaster implements TeamMember {
 
     public static final Logger looger = LoggerFactory.getLogger(ScumMaster.class);

@@ -1,11 +1,11 @@
-package agileteam;
+package agileteam.domain;
 
-import agileteam.report.TeamReport;
+import agileteam.domain.report.TeamReport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
-@Component
+@Repository
 public class ProductOwner implements TeamMember{
 
     private TeamReport report;

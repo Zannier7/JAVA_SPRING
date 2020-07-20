@@ -1,76 +1,44 @@
 package com.zan.dev.web.zan.dev.init;
 
 
-import agileteam.TeamMember;
-import agileteam.TechnicalLeader;
-import agileteam.report.TechnicalLeaderReport;
+import agileteam.domain.Developer;
+import agileteam.domain.Infraestructure.DeveloperController;
+import agileteam.domain.application.DeveloperListService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.PropertySource;
+
+import java.util.List;
+import java.util.Map;
 
 @SpringBootApplication
 @ComponentScan("agileteam")
-@PropertySource("classpath:demo.properties")
-public class JwdInitApplication implements CommandLineRunner {
+public class JwdInitApplication {
 
-	private static final Logger logger = LoggerFactory.getLogger(JwdInitApplication.class);
+    private static final Logger logger = LoggerFactory.getLogger(JwdInitApplication.class);
 
-	@Autowired
-	@Qualifier("developer")
-	private TeamMember developerFrontEnd;
+    @Autowired
+    private DeveloperController developerController;
 
-	@Autowired
-	@Qualifier("developer")
-	private TeamMember developerBackEnd;
+    public static void main(String[] args) {
+        SpringApplication.run(JwdInitApplication.class, args);
+    }
 
-	@Autowired
-	private TeamMember scumMaster;
+    public void run(String... args) throws Exception {
+        Map<String, Object> listDevelopers = developerController.validateDeveloper();
 
-	@Autowired
-	private TeamMember productOwner;
+        String code = (String) listDevelopers.get("code");
+        if ("ok".equals(code)) {
+			List<Developer> list = (List<Developer>) listDevelopers.get("list");
 
-	@Autowired
-	@Qualifier("technicalLeader")
-	private TeamMember technicalLeader;
+			list.forEach(developer -> logger.info(developer.getName() + " " + developer.getLastName()));
+		} else {
+        	logger.info("No existen datos");
+		}
+    }
 
-	@Value("${nombre-equipo}")
-	private String teamName;
-
-	public static void main(String[] args) {
-		SpringApplication.run(JwdInitApplication.class, args);
-	}
-
-	@Override
-	public void run(String... args) throws Exception {
-
-		logger.info("Name Team: " + teamName);
-
-		logger.info(developerFrontEnd.doAction());
-		logger.info(developerBackEnd.doReport());
-		logger.info(scumMaster.doReport());
-		logger.info(scumMaster.doAction());
-		logger.info(productOwner.doReport());
-		logger.info(productOwner.doAction());
-
-		logger.info(technicalLeader.doReport());
-		logger.info(technicalLeader.doAction());
-	}
-
-	@Bean
-	public TechnicalLeaderReport createTechnicalLeaderReport() {
-		return new TechnicalLeaderReport();
-	}
-
-	@Bean(name="technicalLeader")
-	public TechnicalLeader createTechnicalLeader(){
-		return new TechnicalLeader(createTechnicalLeaderReport());
-	}
 }

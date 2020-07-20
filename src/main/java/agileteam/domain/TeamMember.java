@@ -1,4 +1,4 @@
-package agileteam;
+package agileteam.domain;
 
 public interface TeamMember {
     public String doAction();
